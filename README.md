@@ -49,3 +49,7 @@ We have downloaded the full dumps of [English](https://dumps.wikimedia.org/enwik
 * [networkx](https://networkx.github.io)
 
 ## 5. Graph embeddings
+
+## Literature
+
+1. P. Goyal, E. Ferrara, Graph Embedding Techniques, Applications, and Performance: A Survey. December 2017. Available at: https://arxiv.org/abs/1705.02801
