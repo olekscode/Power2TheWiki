@@ -41,3 +41,9 @@ Among all red pages in the Wikipedia in language A find those that can be linked
 
 ## 1. Collecting the data
 We have downloaded the full dumps of [English](https://dumps.wikimedia.org/enwiki/20180620/) and [Ukrainian](https://dumps.wikimedia.org/ukwiki/20180620/) Wikipedia articles from 20/06/2018. Then we have parsed those articles to get outgoing red and blue links: the link article, text and position in the current article text. Also we have downloaded [Wiki interlanguage link records](https://dumps.wikimedia.org/ukwiki/20180620/ukwiki-20180620-langlinks.sql.gz) and parsed out all interlingual links between English and Ukrainian Wikipedia articles.
+
+## 2. Creating the graphs
+
+### Software Libraries
+
+* [networkx](https://networkx.github.io)
