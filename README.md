@@ -14,7 +14,7 @@ Final project for the Mining Massive Datasets course at UCU.
 * **E-L** - edges of graph G-L. Links between all pages of the Wikipedia in language L.
 * **E-Lb** - edges of graph G-Lb. Links between blue pages of the Wikipedia in language L.
 
-## Problem Statement
+## Problem statement
 Among all red pages in the Wikipedia in language A find those that can be linked to some blue page in the Wikipedia in language B.
 
 ## Plan
@@ -34,7 +34,7 @@ Among all red pages in the Wikipedia in language A find those that can be linked
 6. Find the nearest neighbours for all nodes from V-ENr in V-UKb and for all nodes from V-UKr in V-ENb using graph embeddings
 7. Compare the results to the baseline
 
-## Research Questions
+## Research questions
 1. If almost all red pages have only one incoming link from page X, the idea of graph isomorphism will make little sense because we will be looking for similarity based on a single common neighbour. And this means that any other neighbour of X would be a potential candidate.
     1. What is the average number of incoming links of red pages?
     2. What percent of red pages have the number of incoming links greater than some threshold = 3, 4, 5, ...?
@@ -44,6 +44,8 @@ We have downloaded the full dumps of [English](https://dumps.wikimedia.org/enwik
 
 ## 2. Creating the graphs
 
-### Software Libraries
+### Software libraries
 
 * [networkx](https://networkx.github.io)
+
+## 5. Graph embeddings
