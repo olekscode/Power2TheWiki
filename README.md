@@ -34,6 +34,12 @@ Among all red pages in the Wikipedia in language A find those that can be linked
 6. Find the nearest neighbours for all nodes from V-ENr in V-UKb and for all nodes from V-UKr in V-ENb using graph embeddings
 7. Compare the results to the baseline
 
+## Minimum value product (MVP)
+
+* Well-documented dataset
+* Baseline - simple graph-based method of finding nearest neighbours. Proof of concept that our dataset can be used for such things.
+* Something above the baseline.
+
 ## Research Questions
 1. If almost all red pages have only one incoming link from page X, the idea of graph isomorphism will make little sense because we will be looking for similarity based on a single common neighbour. And this means that any other neighbour of X would be a potential candidate.
     1. What is the average number of incoming links of red pages?
