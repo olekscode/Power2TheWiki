@@ -1,5 +1,5 @@
 # Power2TheWiki
-Final project for the Mining Massive Datasets course at UCU.
+Final project for the Mining Massive Datasets course at the Ukrainian Catholic University. The goal of this project is to build the graph of all Wikipedia pages and learn from it to fing pages that correspond to the non-existing pages referenced by red links in other languages. This would allow to create the so-called "red pages" by translating the existing ones.
 
 ## Terminology
 * **Page** - either an acual page in Wikipedia or a non-existing page having red links pointing to it (see Red Page).
