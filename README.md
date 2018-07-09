@@ -34,6 +34,11 @@ Among all red pages in the Wikipedia in language A find those that can be linked
 6. Find the nearest neighbours for all nodes from V-ENr in V-UKb and for all nodes from V-UKr in V-ENb using graph embeddings
 7. Compare the results to the baseline
 
+## Research Questions
+1. If almost all red pages have only one incoming link from page X, the idea of graph isomorphism will make little sense because we will be looking for similarity based on a single common neighbour. And this means that any other neighbour of X would be a potential candidate.
+    1. What is the average number of incoming links of red pages?
+    2. What percent of red pages have the number of incoming links greater than some threshold = 3, 4, 5, ...?
+
 ## 1. Collecting the data
 We have downloaded the full dumps of [English](https://dumps.wikimedia.org/enwiki/20180620/) and [Ukrainian](https://dumps.wikimedia.org/ukwiki/20180620/) Wikipedia articles from 20/06/2018. Then we have parsed those articles to get outgoing red and blue links: the link article, text and position in the current article text. Also we have downloaded [Wiki interlanguage link records](https://dumps.wikimedia.org/ukwiki/20180620/ukwiki-20180620-langlinks.sql.gz) and parsed out all interlingual links between English and Ukrainian Wikipedia articles.
 
