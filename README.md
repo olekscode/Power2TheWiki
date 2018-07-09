@@ -53,40 +53,14 @@ Next step is to learn this embeddings. Start with some simple idea: we made tf-i
 
 For every eng red link in the matrix we calculate similarity (using similarity metrics selected on the previous step) to those ukr articles that do not have eng version. The most similar ukr article is the one that correeponds to this red link. Possibly, we will find several ukr articles with the same similarities, so add them as candidates for further preprocessing.
 
-----------
+## 2. Creating the graphs
 
-## Diego's comments [TEMPORARY SECTION]
+### Software libraries
 
-Start with "finding duplicate/similar nodes in one graph".  More formally: 
-"Lets consider the two Graphs, with G_en:{V_en, E_en} and  G_ua =:{V_ua, E_ua}, with V_x being the wikipedia pages in language X, and E_x the links between those pages. Each node V_x has an status s  blue (page exists) or red (page doesn't exists). For all nodes in G_en and G_ua with s=blue, there is direct mapping Q. Let's now create a third graph G_q, where all the nodes with the mapping Q(V_en_i == V_ua_i) => Q_i, where Q_i inherit all the links from V_en_i and V_ua_i. The task is learning from G_q_blue the probability of  P of P(V_en_j == V_ua_j ==> True), predict the probability of nodes in V_en_red to have a mapping in a node V_ua_blue"
+* [networkx](https://networkx.github.io)
 
-in other words, you will create the graph for each editions, and then will merge those graphs using the wikidata mapping. 
-To train your model, you can just the blue nodes, because all them have mappings (wikidata items), but you can use a set of them for experimentation. So imagine that you have 500K pages that are both in enwiki and uawiki, you will train your model with 400K and use the other 100K as test set. Finally as validation set you will use some manually evaluated pairs, using the red links.
+## 5. Graph embeddings
 
-Yes, but here the important part is not in the supervised learning algorithm that you use, but in the notion of node similarity that you use.
-To measure the distance/similarity between nodes you can use traditional graph theory (for example number of neighbors in common AKA mutual friends) or if you want to do something more trendy you can try with graph embeddings. There is a very interesting and easy to use python library for Graph embeddings: https://github.com/palash1992/GEM
+## Literature
 
-you are right, maybe in the first step you should just merge the edges, but no the nodes.
-
-Ok, you need to design this, but think in something line a graph with of wikidata items, where which wikidata item is mapped to their corresponding pages in en and uk
-
-take all the nodes that you have both in en and uk, and using the ~80% of this nodes, create your graph
-now, for the reaming 20%, you added as two different nodes
-then, create the embedding of that graph, and query over the nodes in 20% duplicated, to find nearest neighborhood
-so, the probability of two nodes being the same, would be some distance (eg cosine similarity) metric
-
-then you task would be: 1) add some weight in the edges, 2) try with different embedding
-then you can report the distribution of probabilities between true positives
-
-if you try multiple embeddings, and ways to weight edges and build the graph, you will need to combine them
-I would add layer on top of this, using different embeddings plus other features
-but if you just do the first part... it might a contribution
-
-also instead of using the distance metric, you can use some supervised classification to perform the task directly over the embedded vectors
-distance is uni dimensional, but maybe the similarity that we are looking for is embed not equally in all dimensions
-
-I would compare standalone approaches (nearest neig with from one embedding) with aggregated systems
-we are researching, you usually start with the most simple approach and build on top of this
-but it's difficult to know without seen some results.
-
-My overall recommendation, build the dataset as soon as possible, an start computing the most basics statistics such as correlation between variables, or basic classifiers such as logistic regression (if makes sense for your project, obviously)
+1. P. Goyal, E. Ferrara, Graph Embedding Techniques, Applications, and Performance: A Survey. December 2017. Available at: https://arxiv.org/abs/1705.02801
