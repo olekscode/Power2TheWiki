@@ -53,13 +53,13 @@ For every eng red link in the matrix we calculate similarity (using similarity m
 
 ## 2. Baseline
 
-We got a list of non-translated uk articles that have at list 5 incoming links in uk_wiki. There are 82,122 such articles. We encoded all uk non-translated articles as 'bag of words' by its unique incoming uk links.
+We got a list of non-translated uk articles that have at least 5 incoming links in uk wiki. There are 82,122 such articles. We encoded all uk non-translated articles as 'bag of words' by its unique incoming uk links.
 
-We got a list of red links in en wiki, for which there are a least 5 incoming links in en wiki. There are 3,593 such links. We encoded every red link as 'bag of words' by its unique incoming en link. Then we 'translated' such encoding to uk: every en article in the 'bag of words' we replaced with its uk corresponding article if exists, and just removed if not. As a result, both uk non-translated articles and en red links are encoded in the same feature space - incoming uk articles.
+We got a list of red links in en wiki, for which there are a least 5 incoming links in en wiki. There are 3,593 such links. We encoded every red link as 'bag of words' by its unique incoming en link. Then we 'translated' such encoding to uk: every en article in the 'bag of words' we replaced with its corresponding uk article if exists, or just removed if not. As a result, both uk non-translated articles and en red links are encoded in the same feature space - by incoming uk articles.
 
-For every red link we found its Jaccard similarities with all non-translated uk articles, the we select top 5 most similar uk_articles.
+For every red link we found its Jaccard similarities with all non-translated uk articles, We reported 5 most similar uk articles with corresponding Jaccard score for every red link.
 
-We evaluated algorithm performance manually, as it is impossible to find threshold for Jaccard similarity, and correct corresponding uk article is not always the first one among to 5 most similar articles. For about a third among 3,593 red link algorithm didn't found any similar articles. However, for 165 en red links corresponding non-translated uk article was found.
+We evaluated algorithm performance manually, as it is impossible to find threshold for Jaccard similarity, and correct corresponding uk article is not always the first among the 5 most similar articles. For about a third among 3,593 red link, algorithm didn't found any similar articles. However, for 165 en red links true corresponding non-translated uk article were found.
 
 ## 3. Results
 
