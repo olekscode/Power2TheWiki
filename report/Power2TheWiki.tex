@@ -37,7 +37,49 @@ We propose a solution of finding the potential translation of the missing page i
 
 \section{Data collection and preparation}
 
-We have downloaded the full dumps of English\footnote{\url{https://dumps.wikimedia.org/enwiki/20180620/}} and Ukrainian Wikipedia\footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/}} articles from 20/06/2018. Then we have parsed those articles to get outgoing red and blue links: the link article, text and position in the current article text. Also we have downloaded Wiki interlanguage link records\footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/ukwiki-20180620-langlinks.sql.gz}} and parsed out all interlingual links between English and Ukrainian Wikipedia articles.
+We have downloaded the full dumps of English\footnote{\url{https://dumps.wikimedia.org/enwiki/20180620/}} and Ukrainian Wikipedia\footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/}} articles from 20/06/2018. 
+
+Then we have parsed those articles with regular expressions to get outgoing red and blue links: the link article, text and position in the current article text. There was red links in English Wikipedia and red links Ukrainian Wikipedia. There was blue links in English Wikipedia and blue links Ukrainian Wikipedia. This data is stored in enwiki-20180620-pages-links.csv and ukwiki-20180620-pages-links.csv files. Format of those files is following:\\
+id - id of a page\\
+link\_id - id of a linked page\\
+link\_pos - position of link in a page markup text\\  
+link\_pos\_perc - relative position of link in a page markup text, range from 0 (at the beginning of page text) to 1 (at the end of page text)\\  
+link\_val - title of a linked page\\  
+link\_text - link text, if available\\  
+is\_red\_link - boolean, whether a link is red or not\\  
+
+Then we have downloaded Wiki interlanguage link records \footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/ukwiki-20180620-langlinks.sql.gz}} and parsed out all interlingual links between En and Uk Wiki articles. There was 441928 pairs of Uk-En Wiki articles. This data is stored in 20180620-langlinks\_uk\_en.csv file. Format of this file is following:\\
+id\_uk - id of a page in Uk Wiki\\
+id\_en - id of a linked page in En Wiki\\
+
+From dumps we collected data about pages aliases (redirects) in En and Uk Wiki. The alias page is the page user can come upon by searching the article not by it's original name, but by it's alias name, then user is redirected to the original page. Alias data is important for our task, since links may lead not to the original article, but to it's redirect page. This data is stored in set of files:\\
+\\
+enwiki-20180620-id\_alias\_title\_alias.csv, ukwiki-20180620-id\_alias\_title\_alias.csv with format:\\
+id\_alias - id of alias page\\
+title\_alias - title of alias page\\
+\\
+enwiki-20180620-id\_alias\_id\_orig.csv, ukwiki-20180620-id\_alias\_id\_orig.csv with format:\\
+id\_alias - id of alias article\\
+id\_orig - id of original article\\
+\\
+enwiki-20180620-id\_orig\_title\_alias.csv, ukwiki-20180620-id\_orig\_title\_alias.csv with format:\\
+id\_orig - id of original article\\
+title\_alias - title of alias pages\\
+
+Also we composed a list of all pages in En and Uk Wiki. There were 5669865 in En and 581098 articles Uk Wiki. This data is stored in enwiki-20180620-id\_name.csv, ukwiki-20180620-id\_name.csv files. Format of those files is following:\\
+id - id of a page\\
+title - title of a page\\
+length - length of a page markup text\\
+
+Besides that, we did a statistical analysis for red links, we calculated how many times each red link was used and saved results in the enwiki-20180620-red\_name\_count.csv, ukwiki-20180620-red\_name\_count.csv files with format:\\
+link\_title - title of a red link\\
+in\_count - number of times it was used\\
+\\
+Also we calculated how many red links there are with a certain number of use, and stored results into the enwiki-20180620-red\_count\_by\_count.csv, ukwiki-20180620-red\_count\_by\_count.csv files with format:\\
+count - number of red link usage\\
+in\_count - number of this count case\\
+
+For example, in En Wiki red link was used only once for 4354094, and twice for 811612 times.\\
 
 For every eng red link in the matrix we calculate similarity (using similarity metrics selected on the previous step) to those ukr articles that do not have eng version. The most similar ukr article is the one that correeponds to this red link. Possibly, we will find several ukr articles with the same similarities, so add them as candidates for further preprocessing.
 
