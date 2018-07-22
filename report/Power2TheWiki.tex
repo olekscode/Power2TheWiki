@@ -41,6 +41,14 @@ We propose a solution for finding the potential translation of the missing pages
 
 To our knowledge, there was no work done in this area. In their work The Collaborative Organization of Knowledge, Diomidis Spinellis and Panagiotis Louridas \cite{spinellis} have found that most new articles are created shortly after a corresponding reference to them (red link) is entered into the system and are typically written by different authors from the ones behind the references.
 
+\section{Problem statement}
+
+\begin{enumerate}
+	\item Define a distance measure $q: V_{EN} \times V_{UK} \to \mathbb{R}$ that would represent similarity between articles of English ($V_{EN}$) and Ukrainian ($V_{UK}$) Wikipeadia. This measure should be high for articles that are the translations of one another and low for those that are not.
+	\item For each red link in English Wikipedia find the closest article in Ukrainian Wikipedia in terms of the defined distance measure. In other words, for each $v^{*} \in V_{EN}^{(red)}$ find
+	\[ v = \operatorname*{argmin}_{v \in V_{UK}^{(blue)}} q(v^{*}, v) \]
+\end{enumerate}
+
 \section{Data collection and preparation}
 
 We have downloaded the full dumps of English\footnote{\url{https://dumps.wikimedia.org/enwiki/20180620/}} and Ukrainian Wikipedia\footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/}} articles from 20/06/2018. 
