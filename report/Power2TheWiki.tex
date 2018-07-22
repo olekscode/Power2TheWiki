@@ -7,6 +7,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{authblk}
+\usepackage{float}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -44,7 +46,7 @@ To our knowledge, there was no work done in this area. In their work The Collabo
 \section{Problem statement}
 
 \begin{enumerate}
-	\item Define a distance measure $q: V_{EN} \times V_{UK} \to \mathbb{R}$ that would represent similarity between articles of English ($V_{EN}$) and Ukrainian ($V_{UK}$) Wikipeadia. This measure should be high for articles that are the translations of one another and low for those that are not.
+	\item Define a distance measure $q: V_{EN} \times V_{UK} \to \mathbb{R}$ that would represent similarity between articles of English ($V_{EN}$) and Ukrainian ($V_{UK}$) Wikipeadia. This measure should be high for articles that are the translations of one another and low for the ones that are not.
 	\item For each red link in English Wikipedia find the closest article in Ukrainian Wikipedia in terms of the defined distance measure. In other words, for each $v^{*} \in V_{EN}^{(red)}$ find
 	\[ v = \operatorname*{argmin}_{v \in V_{UK}^{(blue)}} q(v^{*}, v) \]
 \end{enumerate}
@@ -97,9 +99,66 @@ For example, in En Wiki red link was used only once for 4354094, and twice for 8
 
 For every eng red link in the matrix we calculate similarity (using similarity metrics selected on the previous step) to those ukr articles that do not have eng version. The most similar ukr article is the one that correeponds to this red link. Possibly, we will find several ukr articles with the same similarities, so add them as candidates for further preprocessing.
 
-\section{Baseline assumption}
+\section{Proposed solution}
 
-\[ p(a)p(b)p(c) < p(a)p(b) \]
+Among all non-existing articles of English Wikipedia we consider only those that have at least 5 red links pointing to them from existing articles that have translations in Ukrainian Wikipedia. There are 3,593 red articles that satisfy this condition. We look for potential translations of the collected red links in the subset of 82,122 Ukrainian articles that don't have an English translation.
+
+\subsection{Number of common neighbours}
+
+This approach is based on two assumptions:
+
+\begin{enumerate}
+	\item Translations of a same article exist in a similar context. Many articles that are connected to them by incoming or outgoing links are also translations of one another.
+	\item Let articles $a$ and $b$ be completely unrelated. Let $N(a, b)$ be the total number of links that connect $a$ and $b$ and let $m > n$. Then the probability of $N(a, b) = m$ is lower than the probability of $N(a, b) = n$.
+	\item As a result of previous assumption: the greater is the number of links that connect $a$ and $b$ - the higher is the probability that $a$ and $b$ are related.
+\end{enumerate}
+
+If article $b$ is references both $a$ and $c$ then assume that $a$ and $c$ are connected by $b$ and the probability of such connection is a joint probability $P(bRa)P(bRc)$ where $R$ is a non-commutative relation "references". And if two articles are a translation of one another, then we think of them as one article.
+
+For eavery given red link $v^{*}$ of English Wikipedia we find the set of articles that reference it.
+
+\[ V_{EN}^{(incoming)} = \{ v \in V_{EN} | vRv^{*} \} \]
+
+Then we find the set of their Ukrainian translations. Here $Q$ is the commutative relation "translation"
+
+\[ V_{UK}^{(transl)} = \{ v \in V_{UK} | \exists w \in V_{EN}^{(incoming)} : vQw \} \]
+
+Next we need a set of all articles of Ukrainian Wikipedia referenced by those translations
+
+\[ V_{UK}^{(outgoing)} = \{ v \in V_{UK} | \exists w in V_{UK}^{(transl)} : wRv \} \]
+
+We define $M: V_{UK}^{(outgoing)} \to \mathbb{N}$ as the number of incoming links from $V_{UK}^{(transl)}$. Now nearest neighbour can be defined as
+
+\[ v = \operatorname*{argmax}_{v \in V_{UK}^{(outgoing)}} M(v) \]
+
+And based on our assumptions, $v$ has the highest probability of satisfying the relation $vQv^{*}$.
+
+%An example of this procedure in given in figure \ref{fig:graph}.
+
+\begin{figure}[H]
+  \label{fig:graph}
+  \begin{center}
+  \includegraphics[width=0.36\linewidth]{img/graph}
+  \caption{Matching red link with the existing page in other language based on the number of common neighbours. 1-8 are articles of Ukrainian Wikipedia, 9-13 are articles of English Wikipedia. Arrows show links from source to target article (6 references 1), dashed lines connect articles that are translations of each other (6 and 9 are the same article in two languages). We choose 3 as the most likely translation of the red link 13, because it has the most incoming links from the articles whose translations are referencing red article 13. In other words, 3 and 13 have the most neighbours in common. Even though article 12 references 13, it doesn't have Ukrainian translation and therefore it is removed from calculations}
+  \end{center}
+\end{figure}
+
+In order to perform these computations on a large dataset of interconnected Wikipedia articles, we used the \textit{python-igraph}\footnote{\url{http://igraph.org/python/}} package. And the above procedure was done using Jaccard similarities.
+
+\[ J(A, B) = \frac{|A \cap B|}{|A \cup B|} \]
+
+For each red link we reported 5 most likely candidates for its translation\footnote{Source code: \url{https://github.com/olekscode/Power2TheWiki}}.
+
+\subsection{Graph embeddings}
+
+\section{Evaluation}
+
+We evaluated algorithm performance manually, as it is impossible to find threshold for Jaccard similarity, and correct corresponding uk article is not always the first among the 5 most similar articles. For about a third among 3,593 red link, algorithm didn't found any similar articles. However, for 165 en red links true corresponding non-translated uk article were found.
+
+
+\section{Conclusions}
+
+We provided a list of en red articles for which we found corresponding uk non-translated articles. Such articles are about people, films and places in Ukraine, mostly connected with sport, and about Roman Emperors (with no obvious reasons). We sorted these red links based on number of incoming links from en wiki. We assume that those red links, that have more incoming en links, are more valuable for wikipedia community, and their corresponding uk articles are best candidates for translation.
 
 \bibliographystyle{plain}
 \bibliography{Power2TheWiki}
