@@ -31,9 +31,11 @@ In this work we propose a technique for matching the red links of Wikipedia to t
 
 \section{Introduction}
 
-Wikipedia allows its users to create links to the pages that were not yet created. Such links become red and if you click on them, you get redirrected to an empty page and asked to write the missing article. It is much easier for contributors to translate articles from other language than to write a new article from scratch.
+Wikipedia allows its users to create links to the pages that were not yet created. Such links become red and if you click on them, you get redirrected to an empty page and asked to write the missing article. Red links are an important source of information as they let us know what are the gaps in Wikipedia and how important it is to fill them. Every red link is the reference to a non-existing page and the number of such references can serve as a measure of interest that community of contributors has in a certain topic. Filling those gaps is a perfect way of making Wikipedia more complete and interconnected.
 
-We propose a solution of finding the potential translation of the missing page in other language. This would allow Wikipedia to automatically link red links to their translations in other languages and make the contribution process easier.
+A major problem with red links is that because of the way they are stored in database they can not be linked to pages in other languages in a same way as existing pages are linked to their translations. This complicates the contribution process as it is much easier for people to translate and edit the existing page than to write a new one.
+
+We propose a solution for finding the potential translation of the missing pages in other languages. It would allow Wikipedia to automatically match red links to existing pages and make contribution much easier.
 
 \section{Data collection and preparation}
 
