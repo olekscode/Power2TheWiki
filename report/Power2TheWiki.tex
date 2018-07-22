@@ -37,6 +37,10 @@ A major problem with red links is that because of the way they are stored in dat
 
 We propose a solution for finding the potential translation of the missing pages in other languages. It would allow Wikipedia to automatically match red links to existing pages and make contribution much easier.
 
+\section{Related work}
+
+To our knowledge, there was no work done in this area. In their work The Collaborative Organization of Knowledge, Diomidis Spinellis and Panagiotis Louridas \cite{spinellis} have found that most new articles are created shortly after a corresponding reference to them (red link) is entered into the system and are typically written by different authors from the ones behind the references.
+
 \section{Data collection and preparation}
 
 We have downloaded the full dumps of English\footnote{\url{https://dumps.wikimedia.org/enwiki/20180620/}} and Ukrainian Wikipedia\footnote{\url{https://dumps.wikimedia.org/ukwiki/20180620/}} articles from 20/06/2018. 
@@ -88,5 +92,8 @@ For every eng red link in the matrix we calculate similarity (using similarity m
 \section{Baseline assumption}
 
 \[ p(a)p(b)p(c) < p(a)p(b) \]
+
+\bibliographystyle{plain}
+\bibliography{Power2TheWiki}
 
 \end{document}
