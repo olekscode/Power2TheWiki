@@ -44,7 +44,7 @@ We propose a solution for finding the potential translation of the missing pages
 
 \section{Related work}
 
-To our knowledge, there was no work done in this area. In their work The Collaborative Organization of Knowledge, Diomidis Spinellis and Panagiotis Louridas \cite{spinellis} have found that most new articles are created shortly after a corresponding reference to them (red link) is entered into the system and are typically written by different authors from the ones behind the references.
+To our knowledge, there was no work done in this area. In their work The Collaborative Organization of Knowledge, Diomidis Spinellis and Panagiotis Louridas\cite{spinellis} have found that most new articles are created shortly after a corresponding reference to them (red link) is entered into the system and are typically written by different authors from the ones behind the references.
 
 \section{Problem statement}
 
@@ -146,11 +146,21 @@ And based on our assumptions, $v$ has the highest probability of satisfying the 
   \end{center}
 \end{figure}
 
-In order to perform these computations on a large dataset of interconnected Wikipedia articles, we used the \textit{python-igraph}\footnote{\url{http://igraph.org/python/}} package. And the above procedure was done using Jaccard similarities.
+We encoded all Ukrainian articles that don't have English translations as bag of words by the unique incoming Ukrainian links. We then encoded every red link as bag of words by its unique incoming English link. Then we mapped such encoding to Ukrainian: every English article in the bag of words was replaced with its corresponding Ukrainian article if it exists, or just removed if not. As a result, both Ukrainian non-translated articles and en red links were encoded in the same feature space - by incoming Ukrainian articles. For every red link we found its Jaccard similarities with all non-translated Ukrainian articles, We reported 5 most similar Ukrainian articles with corresponding Jaccard score for every red link.
 
 \[ J(A, B) = \frac{|A \cap B|}{|A \cup B|} \]
 
 For each red link we reported 5 most likely candidates for its translation\footnote{Source code: \url{https://github.com/olekscode/Power2TheWiki}}.
+
+\subsection{Graph embeddings}
+
+We also tried to encode red links and potential articles in uk wiki with graph embedding techniques. The theoretical and software background for our experiments was based on the paper of Palash Goyal and Emilio Ferrara 'Graph Embedding Techniques, Applications, and Performance: A Survey'\cite{goyal} and their library GEM\footnote{\url{https://github.com/palash1992/GEM}}.
+
+Among different embedding techniques described in that article and implemented in the library we have chosen Locally Linear Embedding and Structural Deep Network Embedding (SDNE). The choice of Locally Linear Embedding was due to way it embedded the nodes - it assumes that every node is a linear combination of its neighbors in the embedding space. It suited to our task as the information of the articles with their outcoming links (including red links) for now is the only information which could help to distinguish between different articles. SDNE was chosen due to its good results in experiments provided by authors of the article.
+
+For embedding we assumed that the information we need is all links between articles in Ukrainian wikipedia and the articles from English wikipedia for which we are looking the correspondences in Uk wiki. So we excluded all other information about links in English wiki as it would add noise in our dataset and make it much larger. Nevertheless this data was too huge for the library and our hardware so we kept information only on red articles their 'parent' articles with ids in Ukrainian wiki and all the outcoming links of these 'parent' articles in Uk wiki among which could be potential equivalences for red articles.
+Totally the graph which we embedded has size 99629 nodes and 348948 edges.
+Locally Linear Embedding technique didn't work for us and it need further investigation of the cause of fail but SDNE gave us the first embedding of our graph.
 
 \section{Evaluation}
 
