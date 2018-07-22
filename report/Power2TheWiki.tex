@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper]{article}
 
-\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian,english]{babel}
 \usepackage{listings}
 \usepackage{url}
 \usepackage{amsmath,amsthm}
@@ -9,6 +10,8 @@
 \usepackage{authblk}
 \usepackage{float}
 \usepackage{graphicx}
+
+\selectlanguage{english}
 
 \begin{document}
 
@@ -149,12 +152,27 @@ In order to perform these computations on a large dataset of interconnected Wiki
 
 For each red link we reported 5 most likely candidates for its translation\footnote{Source code: \url{https://github.com/olekscode/Power2TheWiki}}.
 
-\subsection{Graph embeddings}
-
 \section{Evaluation}
 
-We evaluated algorithm performance manually, as it is impossible to find threshold for Jaccard similarity, and correct corresponding uk article is not always the first among the 5 most similar articles. For about a third among 3,593 red link, algorithm didn't found any similar articles. However, for 165 en red links true corresponding non-translated uk article were found.
+We evaluated algorithm performance manually, as it is impossible to find threshold for Jaccard similarity, and correct corresponding Ukrainian article is not always the first among the 5 most similar articles. For about a third among 3,593 red link, algorithm didn't found any similar articles. However, for 165 en red links true corresponding non-translated Ukrainian article were found.
 
+\begin{table}[H]
+\caption{Some examples of matched articles}
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Red English article} & \textbf{Matched Ukrainian article} \\
+\hline
+Roksana Zasina & \foreignlanguage{ukrainian}{Роксана Засіна} \\
+3rd Ukrainian Verkhovna Rada & \foreignlanguage{ukrainian}{Верховна Рада України III скликання} \\
+Oleksandr Derdo & \foreignlanguage{ukrainian}{Дердо Олександр Вікторович} \\
+2003 European Wrestling Championships & \foreignlanguage{ukrainian}{Чемпіонат Європи з боротьби 2003} \\
+Marcus Atilius Regulus Calenus & \foreignlanguage{ukrainian}{Марк Атілій Регул Кален} \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
 \section{Conclusions}
 
